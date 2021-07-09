@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <h4>Dodaj produkty do projektu:</h4>
+</div><br>
+
+<div>
+    <form method="post" action="" class="form-control">
+        {% csrf_token %}
+
+        <label>Nazwa projektu: </label>
+        <input disabled value="{{ project.name }}" class="btn btn-secondary"><br><br>
+
+        <label>Kategoria: </label>
+            <select id="category" name="cat" class="btn btn-secondary">
+                <option disabled selected="true">-- wybierz kategorię --</option>
+                {% for category in categories %}
+                <option value="{{ category.pk }}">{{ category.name}}</option>
+                {% endfor %}
+            </select>
+        <br><br>
+
+        <label>Produkt: </label>
+            <select id="product" name="prod" class="btn btn-secondary">
+                {% for product in products %}
+                <option value="{{ product.pk }}">{{ product.name }}--{{ product.shop }}--{{ product.price }}</option>
+                {% endfor %}
+            </select>
+        <br><br>
+        <label>Ilość: </label>
+        <input type="number" value="number" name="number" class="btn btn-secondary"><br><br><br>
+        <input type="submit" value="Dodaj" class="btn btn-secondary">
+    </form>
+</div><br>
+    <button class="btn btn-secondary"><a href="{% url 'projects'%}" style="text-decoration: none; color: #fafafa;">Wróć</a></button>
+
+{% endblock content %}

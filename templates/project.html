@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Projekt "{{ project.name }}"</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Sklep</th>
+                <th>Kategoria</th>
+                <th>Ilość</th>
+                <th>Cena/szt.</th>
+                <th>Cena/całość</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in productss %}
+            <tr>
+            <form action="" method="post">
+                {% csrf_token %}
+                <td>{{ product.products.name }}</td>
+                <td>{{ product.products.shop }}</td>
+                <td>{{ product.products.category }}</td>
+                <td><input type=number name="how_many" style="width: 50px;" value="{{ product.number }}"></td>
+                <td>{{ product.products.price }}</td>
+                <td>{{ product.full_price }} zł</td>
+                <td>
+                    <button class = "btn btn-secondary" name="delete_product" value="{{ product.products.pk }}">Usuń</button>
+                    <button class = "btn btn-secondary" name="how_many_changed" value="{{ product.products.pk }}">Przelicz</button>
+                </td>
+            </form>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" >Projekt nie ma jeszcze żadnych produktów.</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Razem: </td>
+                <td>{{ price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <button class="btn btn-secondary" name="delete_project" value={{ project.pk }}>Usuń ten projekt</button>
+        <button class="btn btn-secondary"><a href="{% url 'products_to_project' project.pk %}"
+         style="text-decoration: none; color: #fafafa;">Dodaj nowy produkt</a></button>
+
+    </form>
+{% endblock %}

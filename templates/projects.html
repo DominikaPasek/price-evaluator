@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+  <div>
+    <h3>Wszystkie projekty:</h3>
+  </div><br>
+    <p>
+      {% for project in projects %}
+        <h5><a href="{% url 'project' project.pk %}" style="text-decoration:none; color: cornflowerblue;">
+            <strong>{{ project.name }}</strong></a>
+            <button type="button" class="btn btn-secondary show_content">Pokaż</button>
+        </h5>
+    </p>
+
+        <div class="products_to_show" style="display: none;">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="table">
+                        <th>Produkt</th>
+                        <th>Sklep</th>
+                        <th>Kategoria</th>
+                        <th>Ilość</th>
+                        <th>Cena/szt.</th>
+                        <th>Cena/całość</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in project.projectsproducts_set.all %}
+                    <tr class="table">
+                        <td>{{ product.products.name }}</td>
+                        <td>{{ product.products.shop }}</td>
+                        <td>{{ product.products.category }}</td>
+                        <td>{{ product.number }}</td>
+                        <td>{{ product.products.price }}</td>
+                        <td>{{ product.full_price }} zł</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" >Projekt nie ma jeszcze żadnych produktów.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-secondary" name="delete" value={{ project.pk }}>Usuń ten projekt</button>
+                    <a href="{% url 'products_to_project' project.pk %}"
+                       style="text-decoration: none; color: #fafafa;" class="btn btn-secondary">Dodaj nowy produkt</a><br><br>
+                </form>
+          </div>
+      {% endfor %}
+   <br>
+        <a href="{% url 'project_form' %}" style="text-decoration: none; color: #fafafa;"
+           class="btn btn-secondary">Dodaj nowy projekt</a></button>
+</div>
+
+{% endblock %}

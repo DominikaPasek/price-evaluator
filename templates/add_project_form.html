@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4>
+Utwórz nowy projekt:
+</h4><br>
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+{#        <a href="{% url 'products_to_project' %}" style="text-decoration: none; color: #fafafa;">Dalej</a>#}
+        <button class="btn btn-secondary"><a href="{% url 'projects' %}" style="text-decoration: none; color: #fafafa;">Wróć</a></button>
+        <button type="submit" class="btn btn-secondary">Dalej</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <form method="post" action="" class="form-control">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" name="Zapisz" class="btn btn-secondary">
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+  <div>
+    <h3>Wszystkie produkty:</h3><br>
+  </div>
+        <div>
+            <table class="table table-striped" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Nazwa produktu</th>
+                        <th scope="col">Sklep</th>
+                        <th scope="col">Kategoria</th>
+                        <th scope="col">Cena</th>
+                        <th scope="col">Za</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+            {% if products %}
+            {% for product in products %}
+                <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td scope="row" title={{ product.link }}>
+                            <a href="{{ product.link }}" target="_blank" style="text-decoration: none; color: black">{{ product.name }}</a></td>
+                        <td scope="row">{{ product.shop }}</td>
+                        <td scope="row">{{ product.category.name }}</td>
+                        <td scope="row">{{ product.price }}</td>
+                        <td>{{ product.priceFor }}</td>
+                        <td>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-secondary" name="delete" value={{ product.pk }}>Usuń</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            {% endif %}
+            </table>
+        </div>
+
+    <br>
+    <button class="btn btn-secondary" name="update">Odśwież ceny</button>
+    <button class="btn btn-secondary"><a href="/products/add-new-product/" style="text-decoration: none; color: #fafafa ">Dodaj produkt</a></button>
+    <button class="btn btn-secondary" id="category_form_btn">Dodaj kategorię</button><br><br>
+
+        <div id="category_form" style="display: none;">
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ cat_form }}
+                <input type="submit" value="Zapisz" class="btn btn-secondary">
+            </form>
+        </div><br><br>
+</div>
+
+{#<script>#}
+{#$(document).ready(function(){#}
+{#    $('#myTable').dataTable();#}
+{#});#}
+{#</script>#}
+
+{% endblock %}
