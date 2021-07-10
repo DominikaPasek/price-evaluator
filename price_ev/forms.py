@@ -17,25 +17,6 @@ class NewProjectForm(ModelForm):
 class NewProductForm(ModelForm):
     class Meta:
         model = Products
-        fields = ['link', 'shop', 'category', 'name', 'priceFor']
+        fields = ['link']
 
 
-# class ProductToProjectForm(forms.Form):
-#     project = pass
-#     category = forms.ModelChoiceField(
-#         queryset=Category.objects.all(),
-#         label=u"Kategoria",
-#         widget=ModelSelect2Widget(
-#             search_fields=['name__icontains'],
-#         )
-#     )
-#     city = forms.ModelChoiceField(
-#         queryset=Products.objects.all(),
-#         label=u"Produkt",
-#         widget=ModelSelect2Widget(
-#             search_fields=['name__icontains'],
-#             dependent_fields={'category': 'category'},
-#             max_results=200,
-#         )
-#     )
-#     number = forms.NumberInput()

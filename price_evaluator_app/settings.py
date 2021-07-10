@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'price_evaluator_app.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 try:
-    from ._local_settings import DATABASES
+    from .local_settings import DATABASES
 except ModuleNotFoundError:
     print("Brak konfiguracji bazy danych w pliku local_settings.py!")
     print("Uzupełnij dane i spróbuj ponownie!")

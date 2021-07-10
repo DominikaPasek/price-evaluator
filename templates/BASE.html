@@ -11,18 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-    $(document).ready(function(){
-        const $category_var=$('#category');
-        const $product_var=$('#product');
-        let $options_var=$product_var.find('option');
-        console.log($options_var)
-        $category_var.on('change', function(){
-            $product_var.html($options_var.filter('[value="+this.value+"]'));
-         }).trigger('change');
-    })
-    </script>
+
 </head>
 
 <body>
@@ -41,7 +30,8 @@
     <br><h1 style="text-align: center"><strong>IDÉ I TRE</strong></h1>
 <!--    Menu strony-->
     <div class="dropdown" style="text-align: right">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+              data-bs-toggle="dropdown" aria-expanded="false">
         MENU
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">

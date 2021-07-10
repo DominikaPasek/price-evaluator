@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from seleniumwire import webdriver as web
-from .models import Products
 
 
 # making_soup works for biltema, byggmax, clasohlson, monter, nysted
@@ -23,16 +22,37 @@ def new_soup(url):
 
 def biltema(url):
     soup = making_soup(url)
-    get_price = soup.find('div', {'class': 'price__sum'}).text
-    if ',-' in get_price:
-        l = len(get_price)
-        price = get_price[:l-2]
-    else:
-        rev_price = list(get_price[::-1])
-        rev_price.insert(2, '.')
-        price = "".join(rev_price)
-        price = price[::-1]
-    return price
+    get_price = soup.find_all('div', {'class': 'ga__data--holder'})
+    products = []
+    for item in get_price:
+        products.append([item.get("data-product-name"), item.get("data-product-price")])
+    # if ',-' in get_price:
+    #     l = len(get_price)
+    #     price = get_price[:l-2]
+    # else:
+    #     rev_price = list(get_price[::-1])
+    #     rev_price.insert(2, '.')
+    #     price = "".join(rev_price)
+    #     price = price[::-1]
+    return products
+
+# def biltema(url):
+#     soup = making_soup(url)
+#     get_price = soup.find('div', {'class': 'price__sum'}).text
+#     if ',-' in get_price:
+#         l = len(get_price)
+#         price = get_price[:l-2]
+#     else:
+#         rev_price = list(get_price[::-1])
+#         rev_price.insert(2, '.')
+#         price = "".join(rev_price)
+#         price = price[::-1]
+#     return price
+
+
+# print(biltema('https://www.biltema.no/verktoy/sliping/slipepapir/slipepapir-2000019224'))
+# print(biltema('https://www.biltema.no/bygg/kjemikalier/lim/trelim-2000024076'))
+# print(biltema('https://www.biltema.no/bygg/hengsler/dorhengsel/hengselretter-2000017312'))
 
 
 def byggmax(url):
@@ -59,6 +79,7 @@ def clasohlson(url):
     except AttributeError:
         get_product = soup.find('span', {'class': 'product__discount-price'}).text
     price = get_product.replace(',', '.')
+    # price = price.replace(u'\xa0', u' ')
     return price
 
 # print(clasohlson('https://www.clasohlson.com/no/Gummiklubbe/p/40-7558'))

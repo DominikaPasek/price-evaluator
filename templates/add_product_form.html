@@ -3,7 +3,7 @@
 {% block content %}
 
 <div>
-    <form method="post" action="" class="form-control">
+    <form method="post" action="">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" name="Zapisz" class="btn btn-secondary">

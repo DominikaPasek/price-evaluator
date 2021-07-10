@@ -2,6 +2,19 @@
 
 {% block content %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    var $category_var=$('#category');
+    var $product_var=$('#product');
+    var $options_var=$product_var.find('option');
+    console.log($options_var)
+    $category_var.on('change', function(){
+        $product_var.html($options_var.filter('[value="'+this.value+ '"]'));
+     }).trigger('change');
+})
+</script>
+
 <div>
     <h4>Dodaj produkty do projektu:</h4>
 </div><br>

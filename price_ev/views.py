@@ -49,8 +49,9 @@ class AddNewProduct(View):
             shop = form.cleaned_data['shop']
             cat = form.cleaned_data['category']
             name = form.cleaned_data['name']
+            price_for = form.cleaned_data['priceFor']
             price = get_price(link)
-            Products.objects.create(link=link, shop=shop, category=cat, name=name, price=price)
+            Products.objects.create(link=link, shop=shop, category=cat, name=name, price=price, priceFor=price_for)
             return redirect('products')
         else:
             return render(request, 'add_product_form.html', {'form': form})
@@ -137,15 +138,13 @@ class ProjectDetails(View):
         elif request.POST.get('delete_project'):
             project.delete()
             messages.info(request, "Projekt usunięto.")
-        # input to change the number of the product in database
-        elif request.POST.get('how_many_changed'):
-            product_pk = request.POST.get('how_many_changed')
+        # input to change the number of the product for a project
+        elif request.POST.get('which_product_to_change'):
+            product_pk = request.POST.get('which_product_to_change')
             product = Products.objects.get(pk=product_pk)
             how_many_products = request.POST.get('how_many')
-            product_to_change = project.projectsproducts_set.get(products=product)
-            # # product_to_change = ProjectsProducts.objects.filter(project=project, products=product).value()
-            # product_to_change = how_many_products
-            # product_to_change = how_many_products * product.price
+            product_to_change = ProjectsProducts.objects.filter(project=project, products=product)
+            product_to_change.full_price = how_many_products * product.price
             product_to_change.save()
         return redirect(f'/projects/{project_id}/')
 
@@ -164,3 +163,12 @@ def get_price(l):
     else:
         p = byggmax(l)
     return p
+
+
+# def link_form(request):
+#     if request.POST:
+#         link = request.POST.get('link')
+#         data = get_price(link)
+#         return data
+#     else:
+#         return render(request, 'link.html')
