@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
-# from seleniumwire import webdriver as web
+from seleniumwire import webdriver as web
 from django.http import JsonResponse
 import requests
 import ast
@@ -12,7 +12,8 @@ import ast
 
 # making_soup connects to the browser and gets html data. Works for biltema, clasohlson, monter, nysted, byggmax.
 def making_soup(url):
-    browser = webdriver.Firefox(executable_path=r'C:\Users\domip\PycharmProjects\geckodriver-v0.29.1-win64\geckodriver.exe')
+    browser = webdriver.Firefox(
+        executable_path=r'C:\Users\domip\PycharmProjects\geckodriver-v0.29.1-win64\geckodriver.exe')
     browser.get(url)
     html_source = browser.page_source
     browser.quit()
@@ -20,7 +21,7 @@ def making_soup(url):
     return soup
 
 
-# new_soup works for...
+# new_soup will eventually work for maxbo, obsbygg, jernia, jula, optimera
 def new_soup(url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -74,10 +75,6 @@ def byggmax(url):
 # print(new_soup('https://www.byggmax.no/skruekrok-habo-15-elforsinket-p7210662#267=33145'))
 # print(byggmax('https://www.byggmax.no/skruekrok-habo-15-elforsinket-p7210662#267=33134'))
 # print(byggmax('https://www.byggmax.no/skruekrok-habo-15-elforsinket-p7210662'))
-# print(byggmax('https://www.byggmax.no/skruekrok-habo-15-elforsinket-p7210662#267=33693'))
-# print(byggmax('https://www.byggmax.no/sokkel-eik-fin%C3%A9r-barlinek-p13390'))
-# print(byggmax('https://www.byggmax.no/21x95-terrassebord-gr%C3%B8nn-p08722095'))
-# print(byggmax('https://www.byggmax.no/terrasseskrue-rustkfri-a2-42x42-1000stk-p24474'))
 
 
 # def byggm(url):
@@ -120,12 +117,13 @@ def monter(url):
 
 def nysted(url):
     soup = making_soup(url)
-    get_product = soup.find_all('bdi')[4].text
+    get_product = soup.find_all('bdi')[2].text
     price = get_product.lstrip('kr')
     price = price.replace(u'\xa0', u'')
     return price
 
 # print(nysted('https://www.nysted.no/produkt/spraylakk/spraylakk-2/quick-spray-153-sort-matt/'))
+print(nysted('https://www.nysted.no/produkt/uncategorized/ryobi-multisagblad-sett/'))
 
 
 def maxbo(url):
@@ -140,7 +138,6 @@ def obsbygg(url):
 
 # print(obsbygg('https://www.obsbygg.no/gulv-og-tilbehor/heltregulv/2360007?v=ObsBygg-7040430016649'))
 # print(obsbygg('https://www.obsbygg.no/maling-tapet-og-tilbehor/lim-fug-og-sparkel/casco-multiseal-bygg-fugemasse-d5c54719?v=ObsBygg-7311980132012'))
-# print(obsbygg('https://www.obsbygg.no/maling-tapet-og-tilbehor/lim-fug-og-sparkel/fugemasse-casco-akryl-63b09248?v=ObsBygg-7311980100509'))
 
 
 def flugger(url):
@@ -170,7 +167,7 @@ def jernia(url):
 #             my_data = (
 #                 request.url,
 #                 request.response.status_code,
-#                 request.response.headers['Content-Type']
+#                 request.response.headers,
 #             )
 #         else:
 #             my_data = 'No response'

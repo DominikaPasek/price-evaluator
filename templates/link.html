@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <form method="post" action="">
+        {% csrf_token %}
+        <h4>Dodaj adres url wybranego produktu:</h4><br>
+        <p>Link: <input type="url" size="85" name="link">
+        <input type="submit" class="btn btn-secondary">
+        </p>
+    </form>
+</div>
+
+{% endblock %}

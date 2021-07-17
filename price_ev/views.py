@@ -69,19 +69,19 @@ class AddNewProduct(View):
         return render(request, 'add_product_form.html', ctx)
 
     def post(self, request, *args, **kwargs):
-        link = request.session.get('link')
+        link = request.POST.get('link')
         form = NewProductForm(request.POST)
+        try:
+            product = ast.literal_eval(request.POST.get('product'))
+            price = product[1]
+        except ValueError:
+            price = request.POST.get('product_price')
+
         if form.is_valid():
             shop = form.cleaned_data['shop']
             name = form.cleaned_data['name']
             category = form.cleaned_data['category']
             price_for = form.cleaned_data['priceFor']
-
-            try:
-                product = ast.literal_eval(request.POST.get('product'))
-                price = product[1]
-            except ValueError:
-                price = request.POST.get('price')
 
             Products.objects.create(name=name, category=category, price=price,
                                     link=link, shop=shop, priceFor=price_for)
@@ -127,7 +127,9 @@ class AddProductsToProject(View):
         project = Project.objects.get(pk=pk)
         categories = Category.objects.all()
         products = Products.objects.all()
-        ctx = {'project': project, 'categories': categories, 'products': products}
+        added_products = ProjectsProducts.objects.filter(project=project)
+        ctx = {'project': project, 'categories': categories,
+               'products': products, 'added_products': added_products}
         return render(request, 'add_product_to_project.html', ctx)
 
     def post(self, request, *args, **kwargs):
@@ -140,7 +142,7 @@ class AddProductsToProject(View):
             product_id = request.POST.get('prod')
             product = Products.objects.get(pk=product_id)
             number = request.POST.get('number')
-            full_price = round(int(number) * product.price, 2)
+            full_price = int(number) * product.price
             ProjectsProducts.objects.create(project=project, products=product,
                                             number=number, full_price=full_price)
             messages.info(request, 'Możesz dodać następny produkt.')
@@ -159,7 +161,6 @@ class ProjectDetails(View):
         price = 0
         for product in products:
             price += product.full_price
-        # form = UpdateProductsNumber()
         ctx = {'project': project, 'productss': products.order_by('products__name'), 'price': price}
         return render(request, 'project.html', ctx)
 

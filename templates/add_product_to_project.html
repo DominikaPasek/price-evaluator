@@ -27,14 +27,23 @@ $(document).ready(function(){
         <label>Nazwa projektu: </label>
         <input disabled value="{{ project.name }}" class="btn btn-secondary"><br><br>
 
-        <label>Kategoria: </label>
-            <select id="category" name="cat">
-                <option disabled selected="true">-- wybierz kategorię --</option>
-                {% for category in categories %}
-                <option value="{{ category.pk }}">{{ category.name}}</option>
+        {% if added_products %}
+        <label>Dodane produkty:</label>
+            <ul>
+                {% for pro in added_products %}
+                    <li>{{ pro.products.name }}</li>
                 {% endfor %}
-            </select>
-        <br><br>
+            </ul>
+        {% endif %}
+
+        {#        <label>Kategoria: </label>#}
+{#            <select id="category" name="cat">#}
+{#                <option disabled selected="true">-- wybierz kategorię --</option>#}
+{#                {% for category in categories %}#}
+{#                <option value="{{ category.pk }}">{{ category.name}}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{#        <br><br>#}
 
 
         <label>Produkt: </label>

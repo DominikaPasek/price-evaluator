@@ -6,8 +6,8 @@
     <form method="post" action="">
         {% csrf_token %}
 
-            <p>Link:</p>
-                <input disabled value="{{ link }}" maxlength="99" name="link">
+            <p>Link:
+                <input disabled value="{{ link }}" maxlength="99" name="link"></p><br><br>
 
             {% if data %}
 
@@ -20,8 +20,8 @@
 
             {% else %}
 
-                <p>Cena:</p>
-                <input disabled value="{{ price }}">
+                <p>Cena:
+                <input value="{{ price }}" name="product_price"></p><br><br>
 
             {% endif %}
 
