@@ -17,6 +17,10 @@ class NewProjectForm(ModelForm):
 class NewProductForm(ModelForm):
     class Meta:
         model = Products
-        fields = ['link']
+        fields = ['name', 'category', 'shop', 'priceFor']
 
 
+# class UpdateProductsNumber(ModelForm):
+#     class Meta:
+#         model = ProjectsProducts
+#         fields = ['number']

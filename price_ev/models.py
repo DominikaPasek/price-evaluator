@@ -26,9 +26,9 @@ class Category(models.Model):
 
 class Products(models.Model):
     name = models.CharField(max_length=64, verbose_name='Nazwa')
+    link = models.URLField(max_length=99, verbose_name='Link', null=True)
     category = models.ForeignKey(Category, verbose_name='Kategoria', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Cena', null=True)
-    link = models.URLField(max_length=99, verbose_name='Link do produktu')
     shop = models.CharField(max_length=64, choices=SHOPS, default=1, verbose_name='Sklep')
     priceFor = models.CharField(max_length=15, default='szt', verbose_name='Cena za')
 
@@ -49,3 +49,6 @@ class ProjectsProducts(models.Model):
     products = models.ForeignKey(Products, verbose_name='Produkt', null=True, on_delete=models.CASCADE)
     number = models.IntegerField(default=1, verbose_name='Ilość sztuk')
     full_price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Cena całkowita')
+
+    class Meta:
+        unique_together = ('project', 'products')

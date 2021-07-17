@@ -3,12 +3,12 @@
 {% block content %}
 
 <h2>Projekt "{{ project.name }}"</h2>
-    <table class="table table-striped">
+    <table class="table table-striped" id="myTable2">
         <thead>
             <tr>
-                <th>Produkt</th>
-                <th>Sklep</th>
-                <th>Kategoria</th>
+                <th onclick="sortTable(0)">Produkt</th>
+                <th onclick="sortTable(1)">Sklep</th>
+                <th onclick="sortTable(2)">Kategoria</th>
                 <th>Ilość</th>
                 <th>Cena/szt.</th>
                 <th>Cena/całość</th>
@@ -17,12 +17,12 @@
         <tbody>
             {% for product in productss %}
             <tr>
-            <form action="" method="post">
+            <form action="#" method="post">
                 {% csrf_token %}
                 <td>{{ product.products.name }}</td>
                 <td>{{ product.products.shop }}</td>
                 <td>{{ product.products.category }}</td>
-                <td><input type=number name="how_many" style="width: 50px;" value="{{ product.number }}"></td>
+                <td><input type=number name="quantity" style="width: 50px;" value="{{ product.number }}"></td>
                 <td>{{ product.products.price }}</td>
                 <td>{{ product.full_price }} zł</td>
                 <td>
@@ -36,22 +36,99 @@
                 <td colspan="4" >Projekt nie ma jeszcze żadnych produktów.</td>
             </tr>
             {% endfor %}
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>Razem: </td>
-                <td>{{ price }}</td>
-            </tr>
+{#            <tr>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td></td>#}
+{#                <td>Razem: </td>#}
+{#                <td>{{ price }}</td>#}
+{#            </tr>#}
         </tbody>
+    </table>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Razem  -->  {{ price }} zł</th>
+        </tr>
+    </thead>
     </table>
 
     <form action="" method="post">
         {% csrf_token %}
-        <button class="btn btn-secondary" name="delete_project" value={{ project.pk }}>Usuń ten projekt</button>
+        <button class="btn btn-secondary" name="delete_project" value="{{ project.pk }}">Usuń ten projekt</button>
         <button class="btn btn-secondary"><a href="{% url 'products_to_project' project.pk %}"
          style="text-decoration: none; color: #fafafa;">Dodaj nowy produkt</a></button>
 
     </form>
+
+
+
+<script>
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable2");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+
 {% endblock %}

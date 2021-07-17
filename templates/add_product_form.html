@@ -5,8 +5,30 @@
 <div>
     <form method="post" action="">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" name="Zapisz" class="btn btn-secondary">
+
+            <p>Link:</p>
+                <input disabled value="{{ link }}" maxlength="99" name="link">
+
+            {% if data %}
+
+            <p>Wybierz produkt:
+                <select name="product" id="product_options">
+                    {% for product in data %}
+                    <option value="{{ product }}">{{ product }}</option>
+                    {% endfor %}
+                </select></p><br>
+
+            {% else %}
+
+                <p>Cena:</p>
+                <input disabled value="{{ price }}">
+
+            {% endif %}
+
+            {{ form.as_p }}
+
+            <input type="submit" name="Zapisz" class="btn btn-secondary">
+
     </form>
 </div>
 

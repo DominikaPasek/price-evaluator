@@ -3,6 +3,7 @@
 {% block content %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script>
 $(document).ready(function(){
     var $category_var=$('#category');
@@ -10,7 +11,7 @@ $(document).ready(function(){
     var $options_var=$product_var.find('option');
     console.log($options_var)
     $category_var.on('change', function(){
-        $product_var.html($options_var.filter('[value="'+this.value+ '"]'));
+        $product_var.html($options_var.filter('[value="'+this.value+'"]'));
      }).trigger('change');
 })
 </script>
@@ -27,7 +28,7 @@ $(document).ready(function(){
         <input disabled value="{{ project.name }}" class="btn btn-secondary"><br><br>
 
         <label>Kategoria: </label>
-            <select id="category" name="cat" class="btn btn-secondary">
+            <select id="category" name="cat">
                 <option disabled selected="true">-- wybierz kategorię --</option>
                 {% for category in categories %}
                 <option value="{{ category.pk }}">{{ category.name}}</option>
@@ -35,13 +36,15 @@ $(document).ready(function(){
             </select>
         <br><br>
 
+
         <label>Produkt: </label>
-            <select id="product" name="prod" class="btn btn-secondary">
+            <select id="product" name="prod">
                 {% for product in products %}
                 <option value="{{ product.pk }}">{{ product.name }}--{{ product.shop }}--{{ product.price }}</option>
                 {% endfor %}
             </select>
         <br><br>
+
         <label>Ilość: </label>
         <input type="number" value="number" name="number" class="btn btn-secondary"><br><br><br>
         <input type="submit" value="Dodaj" class="btn btn-secondary">

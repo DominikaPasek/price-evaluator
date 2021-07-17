@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', BasicView.as_view(), name='main'),
     path('products/', ProductsView.as_view(), name='products'),
+    path('products/add-new-product/link/', AddNewProductLink.as_view(), name='add_new_product_link'),
     path('products/add-new-product/', AddNewProduct.as_view(), name='product_form'),
     path('projects/', ProjectsList.as_view(), name='projects'),
     path('projects/add-new-project/', AddNewProject.as_view(), name='project_form'),
